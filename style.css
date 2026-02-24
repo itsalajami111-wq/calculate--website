@@ -3,7 +3,7 @@
   --card:#F5F7FA;
   --text:#374151;
   --muted:#6B7280;
-  --primary:#0B3D3F;   /* dark teal */
+  --primary:#0B3D3F;
   --primary2:#0F5E5F;
   --border:#E5E7EB;
   --shadow:0 10px 24px rgba(0,0,0,.07);
@@ -58,7 +58,6 @@ body{
   font-size:18px;
   color:var(--primary);
 }
-.icon{ font-size:18px; }
 
 .grid-2{
   display:grid;
@@ -149,8 +148,6 @@ small{ color:var(--muted); }
   border-radius:12px;
   font-size:14px;
 }
-
-.logoIcon{ font-size:28px; margin-bottom:8px; }
 
 .miniCard{
   background:#fff;

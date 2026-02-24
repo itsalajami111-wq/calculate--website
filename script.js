@@ -13,6 +13,7 @@ const branchCurrencyByCountry = {
   "Canada": [{ code: "CAD", label: "CAD ($) - Canadian Dollar" }],
   "United Kingdom": [{ code: "GBP", label: "GBP (£) - British Pound" }],
   "Australia": [{ code: "AUD", label: "AUD ($) - Australian Dollar" }],
+  "United Arab Emirates": [{ code: "AED", label: "AED (د.إ) - UAE Dirham" }],
   "Other": [{ code: "USD", label: "USD ($) - US Dollar" }]
 };
 

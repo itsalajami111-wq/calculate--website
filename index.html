@@ -68,14 +68,6 @@
             </label>
 
             <label>
-              Employer Match (%)
-              <div class="percent">
-                <input type="number" id="employerMatch" placeholder="e.g., 3" min="0" max="100" step="0.1" value="3" required />
-                <span>%</span>
-              </div>
-            </label>
-
-            <label>
               Expected Annual Return (%)
               <div class="percent">
                 <input type="number" id="annualReturn" placeholder="e.g., 7" min="0" max="30" step="0.1" required />
@@ -89,6 +81,32 @@
                 <input type="number" id="inflationRate" placeholder="e.g., 2.5" min="0" max="15" step="0.1" value="2.5" required />
                 <span>%</span>
               </div>
+            </label>
+
+            <!-- NEW: Currency selector -->
+            <label>
+              Currency
+              <select id="currency" required>
+                <option value="USD" selected>USD ($) - US Dollar</option>
+                <option value="EUR">EUR (€) - Euro</option>
+                <option value="GBP">GBP (£) - British Pound</option>
+                <option value="CAD">CAD ($) - Canadian Dollar</option>
+                <option value="AUD">AUD ($) - Australian Dollar</option>
+                <option value="NZD">NZD ($) - New Zealand Dollar</option>
+                <option value="SGD">SGD ($) - Singapore Dollar</option>
+                <option value="AED">AED (د.إ) - UAE Dirham</option>
+                <option value="SAR">SAR (﷼) - Saudi Riyal</option>
+                <option value="QAR">QAR (﷼) - Qatari Riyal</option>
+                <option value="KWD">KWD (د.ك) - Kuwaiti Dinar</option>
+                <option value="BHD">BHD (.د.ب) - Bahraini Dinar</option>
+                <option value="OMR">OMR (ر.ع.) - Omani Rial</option>
+                <option value="INR">INR (₹) - Indian Rupee</option>
+                <option value="PKR">PKR (₨) - Pakistani Rupee</option>
+                <option value="BDT">BDT (৳) - Bangladeshi Taka</option>
+                <option value="LKR">LKR (Rs) - Sri Lankan Rupee</option>
+                <option value="ZAR">ZAR (R) - South African Rand</option>
+              </select>
+              <small>This changes how results are displayed (format), not the calculation.</small>
             </label>
           </div>
         </div>
@@ -223,6 +241,9 @@
 
       <div class="actions">
         <button class="btn ghost" id="backBtn" type="button">Back to Form</button>
+        <a class="btn" id="bookBtn" href="#" target="_blank" rel="noopener">
+          Book a Free Financial Review with an Adviser
+        </a>
       </div>
     </section>
   </main>

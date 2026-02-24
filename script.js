@@ -4,6 +4,18 @@ const $ = (id) => document.getElementById(id);
 
 let selectedCurrency = "USD";
 
+/**
+ * Company branch currency rules (based on Country of Residence)
+ * Only show currencies for locations where the company has branches.
+ */
+const branchCurrencyByCountry = {
+  "United States": [{ code: "USD", label: "USD ($) - US Dollar" }],
+  "Canada": [{ code: "CAD", label: "CAD ($) - Canadian Dollar" }],
+  "United Kingdom": [{ code: "GBP", label: "GBP (£) - British Pound" }],
+  "Australia": [{ code: "AUD", label: "AUD ($) - Australian Dollar" }],
+  "Other": [{ code: "USD", label: "USD ($) - US Dollar" }]
+};
+
 function showError(msg){
   const box = $("errorBox");
   box.textContent = msg;
@@ -14,6 +26,24 @@ function clearError(){
   const box = $("errorBox");
   box.textContent = "";
   box.style.display = "none";
+}
+
+function setCurrencyOptionsForCountry(country){
+  const currencySelect = $("currency");
+  const options = branchCurrencyByCountry[country] || [{ code: "USD", label: "USD ($) - US Dollar" }];
+
+  currencySelect.innerHTML = ""; // clear
+
+  for (const opt of options){
+    const el = document.createElement("option");
+    el.value = opt.code;
+    el.textContent = opt.label;
+    currencySelect.appendChild(el);
+  }
+
+  // auto-select first allowed currency
+  selectedCurrency = options[0].code;
+  currencySelect.value = selectedCurrency;
 }
 
 function money(n){
@@ -51,11 +81,15 @@ function validateInputs(data){
   if (!data.country) return "Please select your country.";
   if (!data.phone.trim()) return "Please enter your phone number.";
 
+  // Currency must be one of the allowed branch currencies
+  const allowed = (branchCurrencyByCountry[data.country] || branchCurrencyByCountry["Other"]).map(o => o.code);
+  if (!allowed.includes(data.currency)) return "Currency is not available for the selected country.";
+
   return null;
 }
 
 /**
- * Core calculation (unchanged except employer match removed):
+ * Core calculation (unchanged):
  * - Accumulation: yearly compounding + contributions
  * - Retirement: inflation-adjust expenses, then yearly drawdown with growth
  * - Annual Income: 4% rule from total at retirement
@@ -221,11 +255,24 @@ async function sendLeadToBackend(payload){
   }
 }
 
+// When country changes, update allowed currency list
+$("country").addEventListener("change", () => {
+  const country = $("country").value || "Other";
+  setCurrencyOptionsForCountry(country);
+});
+
+// Initialize currency list on page load (based on current country)
+document.addEventListener("DOMContentLoaded", () => {
+  const country = $("country").value || "Other";
+  setCurrencyOptionsForCountry(country);
+});
+
 $("retirementForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   clearError();
 
-  selectedCurrency = $("currency").value || "USD";
+  // Use currently selected allowed currency
+  selectedCurrency = $("currency").value || selectedCurrency;
 
   const data = {
     currentAge: Number($("currentAge").value),

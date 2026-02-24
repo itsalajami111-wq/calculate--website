@@ -127,6 +127,10 @@ small{ color:var(--muted); }
   border-radius:12px;
   font-size:16px;
   cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
 .btn:hover{ background:var(--primary2); }
 
@@ -186,7 +190,14 @@ small{ color:var(--muted); }
 .analysis h3{ margin:6px 0 8px; color:var(--primary); }
 .analysis p{ margin:0 0 10px; color:var(--text); line-height:1.55; }
 
-.actions{ display:flex; justify-content:center; margin-top:14px; }
+/* UPDATED: allow 2 buttons side-by-side, wrap on mobile */
+.actions{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
 
 @media (max-width: 720px){
   .grid-2{ grid-template-columns: 1fr; }

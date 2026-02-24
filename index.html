@@ -1,11 +1,239 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>My Calculator</title>
-  </head>
-  <body>
-    <h1>Hello! My website is working ✅</h1>
-    <p>Next I will build the calculator.</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Retirement Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <main class="container">
+    <!-- VIEW 1: FORM -->
+    <section id="viewForm" class="view">
+      <header class="header">
+        <h1>Retirement Calculator</h1>
+        <p class="sub">Enter your details to see your retirement projection.</p>
+      </header>
+
+      <form id="retirementForm" class="form" novalidate>
+        <!-- 1) Personal Information -->
+        <div class="card">
+          <div class="cardTitle">
+            <span class="icon">👤</span>
+            <h2>Personal Information</h2>
+          </div>
+
+          <div class="grid-2">
+            <label>
+              Current Age
+              <input type="number" id="currentAge" placeholder="e.g., 35" min="18" max="100" required />
+            </label>
+
+            <label>
+              Planned Retirement Age
+              <input type="number" id="retirementAge" placeholder="e.g., 65" min="19" max="100" required />
+            </label>
+          </div>
+        </div>
+
+        <!-- 2) Current Savings & Income -->
+        <div class="card">
+          <div class="cardTitle">
+            <span class="icon">💰</span>
+            <h2>Current Savings &amp; Income</h2>
+          </div>
+
+          <div class="grid-2">
+            <label>
+              Current Retirement Savings
+              <div class="money">
+                <span>$</span>
+                <input type="number" id="currentSavings" placeholder="e.g., 15000" min="0" step="0.01" required />
+              </div>
+            </label>
+
+            <label>
+              Annual Salary
+              <div class="money">
+                <span>$</span>
+                <input type="number" id="annualSalary" placeholder="e.g., 60000" min="0" step="0.01" required />
+              </div>
+            </label>
+
+            <label>
+              Monthly Contribution
+              <div class="money">
+                <span>$</span>
+                <input type="number" id="monthlyContribution" placeholder="e.g., 300" min="0" step="0.01" required />
+              </div>
+            </label>
+
+            <label>
+              Employer Match (%)
+              <div class="percent">
+                <input type="number" id="employerMatch" placeholder="e.g., 3" min="0" max="100" step="0.1" value="3" required />
+                <span>%</span>
+              </div>
+            </label>
+
+            <label>
+              Expected Annual Return (%)
+              <div class="percent">
+                <input type="number" id="annualReturn" placeholder="e.g., 7" min="0" max="30" step="0.1" required />
+                <span>%</span>
+              </div>
+            </label>
+
+            <label>
+              Expected Inflation Rate (%)
+              <div class="percent">
+                <input type="number" id="inflationRate" placeholder="e.g., 2.5" min="0" max="15" step="0.1" value="2.5" required />
+                <span>%</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 3) Retirement Goals & Lifestyle -->
+        <div class="card">
+          <div class="cardTitle">
+            <span class="icon">🏖️</span>
+            <h2>Retirement Goals &amp; Lifestyle</h2>
+          </div>
+
+          <div class="grid-2">
+            <label>
+              Annual Retirement Expenses (Today's Dollars)
+              <div class="money">
+                <span>$</span>
+                <input type="number" id="annualExpenses" placeholder="e.g., 40000" min="1" step="0.01" required />
+              </div>
+              <small>Typically 70–80% of pre-retirement income</small>
+            </label>
+
+            <label>
+              Expected Years in Retirement
+              <input type="number" id="yearsInRetirement" placeholder="e.g., 25" min="1" max="50" required />
+              <small>Plan for longevity — average is 25–30 years</small>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4) Contact Information -->
+        <div class="card">
+          <div class="cardTitle">
+            <span class="icon">✉️</span>
+            <h2>Contact Information</h2>
+          </div>
+
+          <div class="grid-2">
+            <label>
+              First Name *
+              <input type="text" id="firstName" placeholder="First name" required />
+            </label>
+
+            <label>
+              Last Name *
+              <input type="text" id="lastName" placeholder="Last name" required />
+            </label>
+
+            <label class="grid-span-2">
+              Email Address *
+              <input type="email" id="email" placeholder="name@example.com" required />
+            </label>
+
+            <label class="grid-span-2">
+              Country of Residence *
+              <select id="country" required>
+                <option value="">Select your country</option>
+                <option>United States</option>
+                <option>Canada</option>
+                <option>United Kingdom</option>
+                <option>Australia</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <label>
+              Phone Code *
+              <select id="phoneCode" required>
+                <option value="+1">United States (+1)</option>
+                <option value="+44">United Kingdom (+44)</option>
+                <option value="+61">Australia (+61)</option>
+                <option value="+91">India (+91)</option>
+                <option value="+92">Pakistan (+92)</option>
+              </select>
+            </label>
+
+            <label>
+              Phone Number *
+              <input type="tel" id="phone" placeholder="Enter phone number" required />
+            </label>
+          </div>
+        </div>
+
+        <div id="errorBox" class="errorBox" role="alert" aria-live="polite"></div>
+
+        <button class="btn" type="submit">Calculate My Retirement</button>
+      </form>
+    </section>
+
+    <!-- VIEW 2: RESULTS -->
+    <section id="viewResults" class="view hidden">
+      <header class="header center">
+        <div class="logoIcon">📈</div>
+        <h1>Your Retirement Projection</h1>
+        <p class="sub">Here's your personalized retirement analysis</p>
+      </header>
+
+      <div class="summary grid-3">
+        <div class="miniCard">
+          <div class="miniValue" id="totalAtRetirement">$0</div>
+          <div class="miniLabel">Total at Retirement</div>
+        </div>
+        <div class="miniCard">
+          <div class="miniValue" id="annualIncome">$0</div>
+          <div class="miniLabel">Annual Income</div>
+        </div>
+        <div class="miniCard">
+          <div class="miniValue" id="yearsToRetirement">0</div>
+          <div class="miniLabel">Years to Retirement</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardTitle">
+          <span class="icon">📊</span>
+          <h2>Savings Projection Over Time</h2>
+        </div>
+        <div class="chartWrap">
+          <canvas id="projectionChart" height="120"></canvas>
+        </div>
+        <div class="legend">
+          <span><i class="dot teal"></i> Accumulation Phase</span>
+          <span><i class="dot coral"></i> Retirement Phase</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardTitle">
+          <span class="icon">🧾</span>
+          <h2>Personalized Analysis</h2>
+        </div>
+        <div class="analysis">
+          <h3>Your Retirement Savings Estimate</h3>
+          <p id="analysisP1"></p>
+          <p id="analysisP2"></p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn ghost" id="backBtn" type="button">Back to Form</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
 </html>
